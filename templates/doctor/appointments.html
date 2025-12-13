@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}My Appointments - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">All Appointments</h2>
+
+<div class="card">
+    <div class="card-body">
+        {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Status</th>
+                            <th>Diagnosis</th>
+                            <th>Prescription</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.appointment_date }}</td>
+                            <td>{{ appointment.appointment_time }}</td>
+                            <td>{{ appointment.patient_name }}</td>
+                            <td>{{ appointment.age or 'N/A' }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if appointment.status == 'Completed' else 'warning' if appointment.status == 'Booked' else 'danger' }}">
+                                    {{ appointment.status }}
+                                </span>
+                            </td>
+                            <td>{{ appointment.diagnosis or 'N/A' }}</td>
+                            <td>{{ appointment.prescription or 'N/A' }}</td>
+                            <td>
+                                {% if appointment.status == 'Booked' %}
+                                <a href="{{ url_for('doctor_treatment', appointment_id=appointment.id) }}" class="btn btn-sm btn-primary">Add Treatment</a>
+                                {% else %}
+                                <a href="{{ url_for('doctor_treatment', appointment_id=appointment.id) }}" class="btn btn-sm btn-info">View Details</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted">No appointments found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

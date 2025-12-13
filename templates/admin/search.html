@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Search - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Search</h2>
+
+<!--Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('admin_search') }}">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Search Type</label>
+                    <select class="form-select" name="search_type" required>
+                        <option value="">Select Type</option>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="specialization">Specialization</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Search Query</label>
+                    <input type="text" class="form-control" name="query" placeholder="Enter search term..." required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Search Results -->
+{% if results is not none %}
+<div class="card">
+    <div class="card-header">
+        <h5>Search Results {% if query %}for "{{ query }}"{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        {% if results %}
+            {% if search_type == 'patient' %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ result.id }}</td>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.age or 'N/A' }}</td>
+                                <td>{{ result.gender or 'N/A' }}</td>
+                                <td>{{ result.email or 'N/A' }}</td>
+                                <td>{{ result.phone or 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% elif search_type == 'doctor' %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ result.id }}</td>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.specialization_name or 'N/A' }}</td>
+                                <td>{{ result.email or 'N/A' }}</td>
+                                <td>{{ result.phone or 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% elif search_type == 'specialization' %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ result.id }}</td>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.description or 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="text-muted">No results found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

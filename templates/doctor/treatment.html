@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Treatment - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Appointment Details</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Appointment Information</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Patient:</strong> {{ appointment.patient_name }}</p>
+        <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+        <p><strong>Time:</strong> {{ appointment.appointment_time }}</p>
+        <p><strong>Status:</strong> 
+            <span class="badge bg-{{ 'success' if appointment.status == 'Completed' else 'warning' if appointment.status == 'Booked' else 'danger' }}">
+                {{ appointment.status }}
+            </span>
+        </p>
+    </div>
+</div>
+
+{% if appointment.status == 'Booked' %}
+<!-- Treatment Form -->
+<div class="card">
+    <div class="card-header">
+        <h5>Record Treatment</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('doctor_treatment', appointment_id=appointment.id) }}">
+            <input type="hidden" name="action" value="complete">
+            
+            <div class="mb-3">
+                <label class="form-label">Diagnosis</label>
+                <textarea class="form-control" name="diagnosis" rows="3" required>{{ treatment.diagnosis if treatment else '' }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Prescription</label>
+                <textarea class="form-control" name="prescription" rows="3" required>{{ treatment.prescription if treatment else '' }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" name="notes" rows="3">{{ treatment.notes if treatment else '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Mark as Completed</button>
+            <button type="submit" formaction="{{ url_for('doctor_treatment', appointment_id=appointment.id) }}" name="action" value="cancel" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel Appointment</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<!-- View Treatment Details -->
+<div class="card">
+    <div class="card-header">
+        <h5>Treatment Details</h5>
+    </div>
+    <div class="card-body">
+        {% if treatment %}
+            <p><strong>Diagnosis:</strong></p>
+            <p>{{ treatment.diagnosis or 'N/A' }}</p>
+            
+            <p><strong>Prescription:</strong></p>
+            <p>{{ treatment.prescription or 'N/A' }}</p>
+            
+            <p><strong>Notes:</strong></p>
+            <p>{{ treatment.notes or 'N/A' }}</p>
+        {% else %}
+            <p class="text-muted">No treatment details recorded.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

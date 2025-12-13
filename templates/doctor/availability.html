@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Set Availability - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Set Availability (Next 7 Days)</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Available Time Slots</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('doctor_availability') }}">
+            <!--Common time slots -->
+            {% set time_slots = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'] %}
+            
+            {% for day in next_7_days %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>{{ day.strftime('%A, %B %d, %Y') }}</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for time in time_slots %}
+                        <div class="col-md-3 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" 
+                                       name="time_{{ day.strftime('%Y-%m-%d') }}" 
+                                       value="{{ time }}"
+                                       id="time_{{ day.strftime('%Y-%m-%d') }}_{{ time }}"
+                                       {% if availability %}
+                                           {% for avail in availability %}
+                                               {% if avail.available_date == day.strftime('%Y-%m-%d') and avail.available_time == time %}
+                                               checked
+                                               {% endif %}
+                                           {% endfor %}
+                                       {% endif %}>
+                                <label class="form-check-label" for="time_{{ day.strftime('%Y-%m-%d') }}_{{ time }}">
+                                    {{ time }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-primary">Update Availability</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

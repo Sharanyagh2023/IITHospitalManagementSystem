@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Patient History - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Patient History</h2>
+
+<!--Patient Information-->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Patient Information</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Name:</strong> {{ patient.name }}</p>
+        <p><strong>Age:</strong> {{ patient.age or 'N/A' }}</p>
+        <p><strong>Gender:</strong> {{ patient.gender or 'N/A' }}</p>
+        <p><strong>Address:</strong> {{ patient.address or 'N/A' }}</p>
+    </div>
+</div>
+
+<!--Treatment History-->
+<div class="card">
+    <div class="card-header">
+        <h5>Treatment History</h5>
+    </div>
+    <div class="card-body">
+        {% if history %}
+            {% for record in history %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Date:</strong> {{ record.appointment_date }} | <strong>Time:</strong> {{ record.appointment_time }} | 
+                    <span class="badge bg-{{ 'success' if record.status == 'Completed' else 'warning' if record.status == 'Booked' else 'danger' }}">
+                        {{ record.status }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    {% if record.diagnosis %}
+                        <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
+                    {% endif %}
+                    {% if record.prescription %}
+                        <p><strong>Prescription:</strong> {{ record.prescription }}</p>
+                    {% endif %}
+                    {% if record.notes %}
+                        <p><strong>Notes:</strong> {{ record.notes }}</p>
+                    {% endif %}
+                    {% if record.treatment_date %}
+                        <p class="text-muted small">Recorded on: {{ record.treatment_date }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No treatment history found for this patient.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

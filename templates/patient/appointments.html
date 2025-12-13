@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Appointments - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Appointments</h2>
+
+<div class="card">
+    <div class="card-body">
+        {% if appointments %}
+            {% for appointment in appointments %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Date:</strong> {{ appointment.appointment_date }} | <strong>Time:</strong> {{ appointment.appointment_time }} | 
+                    <strong>Doctor:</strong> {{ appointment.doctor_name }} ({{ appointment.specialization or 'N/A' }}) | 
+                    <span class="badge bg-{{ 'success' if appointment.status == 'Completed' else 'warning' if appointment.status == 'Booked' else 'danger' }}">
+                        {{ appointment.status }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    {% if appointment.diagnosis %}
+                        <p><strong>Diagnosis:</strong> {{ appointment.diagnosis }}</p>
+                    {% endif %}
+                    {% if appointment.prescription %}
+                        <p><strong>Prescription:</strong> {{ appointment.prescription }}</p>
+                    {% endif %}
+                    {% if appointment.notes %}
+                        <p><strong>Notes:</strong> {{ appointment.notes }}</p>
+                    {% endif %}
+                    {% if appointment.status == 'Booked' %}
+                        <a href="{{ url_for('patient_cancel_appointment', appointment_id=appointment.id) }}" 
+                           class="btn btn-sm btn-danger" 
+                           onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel Appointment</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No appointments found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

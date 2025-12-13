@@ -1,0 +1,90 @@
+/*Global Styles*/
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #000000;
+}
+.navbar {
+    background-color: #4a2a53 !important;
+    color: #e9dce6 !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+main {
+    flex: 1;
+}
+/*Change all h2 heading colors*/
+h2 {
+    color: #ef91d9 !important;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(117, 84, 152, 0.1);
+    margin-bottom: 20px;
+    border-radius: 15px;
+    border: 2px solid #b8ced3;
+}
+.card-header {
+    background-color: #b689db;
+    font-weight: bold;
+}
+
+
+
+
+.table {
+    background-color: rgb(132, 68, 68);
+}
+.table thead {
+    background-color: #daaf77;
+}
+
+
+
+
+.btn {
+    margin: 2px;
+    background-color: #590ea5;
+}
+
+
+
+
+.stat-card {
+    text-align: center;
+    padding: 15px;
+    background-color: #a4a9c1;
+}
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #17100a;
+}
+.navbar-nav .nav-item {
+    margin: 0 20px;
+}
+
+
+
+.form-label {
+    font-weight: 500;
+    color: #1727a0;
+}
+
+
+.badge {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+}
+
+
+
+@media (max-width: 768px) {
+    .stat-number {
+        font-size: 2rem;
+        color: #d97c3a;
+    }
+}
+
+

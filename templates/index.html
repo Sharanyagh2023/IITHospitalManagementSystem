@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h1 class="display-4 mb-4" style="color:#e0c5da;">Welcome to Hospital Management System</h1>
+        <p class="lead mb-5" style="color:#e0c5da;">A platform for managing hospital operations</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Admin</h5>
+                        <p class="card-text">Manage doctors, appointments, and hospital operations.</p>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary">Admin Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Doctor</h5>
+                        <p class="card-text">View appointments, manage patients, and record treatments.</p>
+                        <a href="{{ url_for('login') }}" class="btn btn-success">Doctor Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Patient</h5>
+                        <p class="card-text">Book appointments, view history, and manage your health records.</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-info">Register</a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-info">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

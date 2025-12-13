@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Dashboard - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Doctor Dashboard</h2>
+
+<!--Upcoming Appointments -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Upcoming Appointments (Next 7 Days)</h5>
+    </div>
+    <div class="card-body">
+        {% if upcoming_appointments %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in upcoming_appointments %}
+                        <tr>
+                            <td>{{ appointment.appointment_date }}</td>
+                            <td>{{ appointment.appointment_time }}</td>
+                            <td>{{ appointment.patient_name }}</td>
+                            <td>{{ appointment.age or 'N/A' }}</td>
+                            <td>{{ appointment.gender or 'N/A' }}</td>
+                            <td>
+                                <a href="{{ url_for('doctor_treatment', appointment_id=appointment.id) }}" class="btn btn-sm btn-primary">View/Update</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted">No upcoming appointments.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!--Assigned Patients -->
+<div class="card">
+    <div class="card-header">
+        <h5>My Patients</h5>
+    </div>
+    <div class="card-body">
+        {% if patients %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td>{{ patient.id }}</td>
+                            <td>{{ patient.name }}</td>
+                            <td>{{ patient.age or 'N/A' }}</td>
+                            <td>{{ patient.gender or 'N/A' }}</td>
+                            <td>
+                                <a href="{{ url_for('doctor_patient_history', patient_id=patient.id) }}" class="btn btn-sm btn-info">View History</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted">No patients assigned yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

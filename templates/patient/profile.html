@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Profile</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Update Profile</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('patient_profile') }}">
+            <h6>Account Information</h6>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" value="{{ patient.username }}" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ patient.email or '' }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-control" name="phone" value="{{ patient.phone or '' }}" required>
+                </div>
+            </div>
+            
+            <hr>
+            <h6>Personal Information</h6>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ patient.name }}" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Age</label>
+                    <input type="number" class="form-control" name="age" value="{{ patient.age or '' }}" min="1" max="150">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if patient.gender == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Address</label>
+                    <textarea class="form-control" name="address" rows="3">{{ patient.address or '' }}</textarea>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

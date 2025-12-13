@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Treatment History - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Treatment History</h2>
+
+<div class="card">
+    <div class="card-body">
+        {% if history %}
+            {% for record in history %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Date:</strong> {{ record.appointment_date }} | <strong>Time:</strong> {{ record.appointment_time }} | 
+                    <strong>Doctor:</strong> {{ record.doctor_name }} ({{ record.specialization or 'N/A' }})
+                </div>
+                <div class="card-body">
+                    {% if record.diagnosis %}
+                        <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
+                    {% endif %}
+                    {% if record.prescription %}
+                        <p><strong>Prescription:</strong> {{ record.prescription }}</p>
+                    {% endif %}
+                    {% if record.notes %}
+                        <p><strong>Notes:</strong> {{ record.notes }}</p>
+                    {% endif %}
+                    {% if record.treatment_date %}
+                        <p class="text-muted small">Recorded on: {{ record.treatment_date }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No treatment history found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

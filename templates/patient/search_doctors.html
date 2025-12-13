@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Find Doctors - Hospital Management System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Find Doctors</h2>
+
+<!-- Search Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('patient_search_doctors') }}">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Specialization</label>
+                    <select class="form-select" name="specialization_id">
+                        <option value="">All Specializations</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept.id }}" {% if specialization_id and specialization_id|int == dept.id %}selected{% endif %}>{{ dept.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Search by Name or Specialization</label>
+                    <input type="text" class="form-control" name="search" placeholder="Enter doctor name or specialization..." value="{{ search_query or '' }}">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Search Results -->
+{% if doctors %}
+<div class="card">
+    <div class="card-header">
+        <h5>Available Doctors</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for doctor in doctors %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ doctor.name }}</h5>
+                        <p class="card-text">
+                            <strong>Specialization:</strong> {{ doctor.specialization_name or 'N/A' }}<br>
+                            <strong>Email:</strong> {{ doctor.email or 'N/A' }}<br>
+                            <strong>Phone:</strong> {{ doctor.phone or 'N/A' }}
+                        </p>
+                        <a href="{{ url_for('patient_doctor_profile', doctor_id=doctor.id) }}" class="btn btn-primary">View Profile & Book</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% elif specialization_id or search_query %}
+<div class="card">
+    <div class="card-body">
+        <p class="text-muted">No doctors found matching your criteria.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
