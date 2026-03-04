@@ -90,11 +90,9 @@ hospitalManagementSystemIITM/
 - **Treatment History**: All completed appointments store diagnosis, prescriptions, and notes
 - **Role-Based Access**: Each user role has specific permissions and views
 
-## Documentation
-
-All functions and methods include inline comments explaining their purpose, with links to relevant Flask and Python documentation.
 
 ## License
 
 This project is created for educational purposes.
+
 
